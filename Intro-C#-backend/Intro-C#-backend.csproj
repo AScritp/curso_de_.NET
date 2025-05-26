@@ -8,4 +8,27 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Notas\Creación_de_clases_objetos_y_herencias.cs" />
+    <Compile Remove="Notas\Funciones.cs" />
+    <Compile Remove="Notas\Generics.cs" />
+    <Compile Remove="Notas\Interfaces.cs" />
+    <Compile Remove="Notas\Lambda Expressions.cs" />
+    <Compile Remove="Notas\LINQ.cs" />
+    <Compile Remove="Notas\Serialización.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Include="Notas\Funciones.cs" />
+    <Page Include="Notas\Lambda Expressions.cs" />
+    <Page Include="Notas\LINQ.cs" />
+    <Page Include="Notas\Serialización.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Include="Notas\Creación_de_clases_objetos_y_herencias.cs" />
+    <Page Include="Notas\Generics.cs" />
+    <Page Include="Notas\Interfaces.cs" />
+  </ItemGroup>
+
 </Project>
