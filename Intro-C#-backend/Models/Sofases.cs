@@ -17,7 +17,8 @@ namespace Intro_C__backend.Models
         //{
 
         //}
-        public Sofases(string FK_Sofa, string NombreSofa, string ColorSofas ,int NumSofas) :base(FK_Sofa, NombreSofa, ColorSofas, NumSofas)
+        public Sofases(string Nombre, int NumHabitantes,string FK_Sofa, string NombreSofa, string ColorSofas ,int NumSofas) 
+               :base( Nombre, NumHabitantes, FK_Sofa, NombreSofa, ColorSofas, NumSofas)
             { 
 
             }

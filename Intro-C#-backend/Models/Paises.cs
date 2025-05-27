@@ -17,10 +17,10 @@ namespace Intro_C__backend.Models
 
         public string ColorSofas { get; set; }
 
-        public Paises( string Fk_Sofas, string NombreSofas, string ColorSofas, int Numsofas) 
+        public Paises( string Nombre, int NumHabitantes, string Fk_Sofas, string NombreSofas, string ColorSofas, int Numsofas) 
         { 
-            Nombre= "España";
-            NumHabitantes = 100000;
+            this.Nombre = Nombre;
+            this.NumHabitantes = NumHabitantes;
             this.FK_Sofas = Fk_Sofas;
             this.NombreSofas = NombreSofas;
             this.ColorSofas = ColorSofas;
