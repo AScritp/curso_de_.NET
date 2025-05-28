@@ -15,7 +15,7 @@ namespace Intro_C__backend.Models
         private string connectionString = "Data Source=MILAPTOPASUS\\SQLEXPRESS;Initial Catalog=EXDB003;" +
             "integrated security=true;";
         // Fución para obtener todos los sofas de la base de datos
-        public List<Sofases> Get(string codigo="00004")
+        public List<Sofases> Get(string codigo="00004") 
         {
             // Lista para almacenar los sofas obtenidos de la base de datos
             List<Sofases> sofa= new List<Sofases>();

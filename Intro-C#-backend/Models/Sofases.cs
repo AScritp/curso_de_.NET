@@ -22,6 +22,9 @@ namespace Intro_C__backend.Models
         //{
 
         //}
+        // Constructor sin parametros para permitir la deserialización desde JSON
+        public Sofases() : base(null,null, 0,null,null,0) {
+        }
         public Sofases(string CodigoPais,string Nombre, int NumHabitantes,string Codigo, string NombreSofas, string ColorSofas ,int NumSofas=0) 
                :base(Codigo, Nombre, NumHabitantes, NombreSofas, ColorSofas, NumSofas)
             {
