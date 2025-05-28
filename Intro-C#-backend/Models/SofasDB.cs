@@ -15,13 +15,15 @@ namespace Intro_C__backend.Models
         private string connectionString = "Data Source=MILAPTOPASUS\\SQLEXPRESS;Initial Catalog=EXDB003;" +
             "integrated security=true;";
         // Fución para obtener todos los sofas de la base de datos
-        public List<Sofases> Get(string codigo)
+        public List<Sofases> Get(string codigo="00004")
         {
             // Lista para almacenar los sofas obtenidos de la base de datos
             List<Sofases> sofa= new List<Sofases>();
 
             // Consulta SQL para obtener los sofas y sus paises asociados
-            string query = $"SELECT * FROM Sofas AS S INNER JOIN Paises AS P ON  S.CodigoP = P.Codigo WHERE S.Codigo = {codigo}";
+            string query = $"SELECT * FROM Sofas AS S INNER JOIN Paises AS P ON  S.CodigoP = P.Codigo";
+
+            //string query = $"SELECT * FROM Sofas AS S INNER JOIN Paises AS P ON  S.CodigoP = P.Codigo WHERE S.Codigo = {codigo}";
 
             // Crear una conexión a la base de datos y ejecutar la consulta
             using (SqlConnection connection= new SqlConnection(connectionString))
@@ -57,5 +59,78 @@ namespace Intro_C__backend.Models
             // Devolver la lista de sofas obtenidos
             return sofa;
         }
+
+        public void Add(Sofases sofa) {
+            string query = $"INSERT INTO Sofas(Codigo,Nombre,Color,CodigoP)"+
+                //Una buena práctica es usar parámetros para evitar inyecciones SQL
+                $"VALUES (@Codigo,@Nombre,@Color,@CodigoP)";
+
+            using (var connection = new SqlConnection(connectionString))
+            {
+
+                SqlCommand command = new(query, connection);
+                // Del commando SQL, se añaden los parámetros con sus valores
+                command.Parameters.AddWithValue("@Codigo",sofa.Codigo);
+                command.Parameters.AddWithValue("@Nombre", sofa.NombreSofas);
+                command.Parameters.AddWithValue("@Color", sofa.ColorSofas);
+                command.Parameters.AddWithValue("@CodigoP", sofa.CodigoP);
+
+
+                connection.Open();
+                // Ejecutar el comando SQL para insertar el nuevo sofa
+                command.ExecuteNonQuery();
+
+                connection.Close();
+            }
+
+        }
+        public void Edit(Sofases sofa)
+        {
+            string query = $"UPDATE Sofas SET Nombre=@Nombre,Color=@Color,CodigoP=@CodigoP WHERE Codigo=@Codigo";
+          
+
+            using (var connection = new SqlConnection(connectionString))
+            {
+
+                SqlCommand command = new(query, connection);
+                // Del commando SQL, se añaden los parámetros con sus valores
+                command.Parameters.AddWithValue("@Codigo", sofa.Codigo);
+                command.Parameters.AddWithValue("@Nombre", sofa.NombreSofas);
+                command.Parameters.AddWithValue("@Color", sofa.ColorSofas);
+                command.Parameters.AddWithValue("@CodigoP", sofa.CodigoP);
+
+
+                connection.Open();
+                // Ejecutar el comando SQL para insertar el nuevo sofa
+                command.ExecuteNonQuery();
+
+                connection.Close();
+            }
+
+        }
+
+        public void Delete(Sofases sofa)
+        {
+            string query = $"DELETE FROM Sofas WHERE Codigo=@Codigo";
+
+
+            using (var connection = new SqlConnection(connectionString))
+            {
+
+                var command = new SqlCommand(query, connection);
+                // Del commando SQL, se añaden los parámetros con sus valores
+                command.Parameters.AddWithValue("@Codigo", sofa.Codigo);
+
+
+                connection.Open();
+                // Ejecutar el comando SQL para insertar el nuevo sofa
+                command.ExecuteNonQuery();
+
+                connection.Close();
+            }
+
+        }
+
     }
+
 }
