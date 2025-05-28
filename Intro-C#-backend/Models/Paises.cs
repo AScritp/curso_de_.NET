@@ -10,18 +10,18 @@ namespace Intro_C__backend.Models
 {
     public class Paises
     {
-        public string CodigoPais { get; set; }
+        public string Codigo { get; set; }
         public string Nombre { get; set; }
         public int NumHabitantes { get; set; }
-        public string FK_Sofas { get; set; }
+        
 
 
-        public Paises( string CodigoPais,string Nombre, int NumHabitantes, string Fk_Sofas, string NombreSofas, string ColorSofas, int Numsofas) 
+        public Paises( string Codigo,string Nombre, int NumHabitantes, string NombreSofas, string ColorSofas, int Numsofas) 
         { 
-            this.CodigoPais = CodigoPais;
+            this.Codigo = Codigo;
             this.Nombre = Nombre;
             this.NumHabitantes = NumHabitantes;
-            this.FK_Sofas = Fk_Sofas;
+            
             
 
         }

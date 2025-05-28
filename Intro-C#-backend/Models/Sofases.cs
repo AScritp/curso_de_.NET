@@ -9,9 +9,12 @@ namespace Intro_C__backend.Models
 {
     internal class Sofases : Paises, IPropiedad_de_sofa
     {
+        public string Codigo { get; set; }
         public string NombreSofas { get; set; }
         public int NumSofas { get; set; }
         public string ColorSofas { get; set; }
+
+        public string CodigoP { get; set; }
 
 
 
@@ -19,12 +22,14 @@ namespace Intro_C__backend.Models
         //{
 
         //}
-        public Sofases(string CodigoPais,string Nombre, int NumHabitantes,string FK_Sofa, string NombreSofas, string ColorSofas ,int NumSofas) 
-               :base(CodigoPais, Nombre, NumHabitantes, FK_Sofa, NombreSofas, ColorSofas, NumSofas)
+        public Sofases(string CodigoPais,string Nombre, int NumHabitantes,string Codigo, string NombreSofas, string ColorSofas ,int NumSofas=0) 
+               :base(Codigo, Nombre, NumHabitantes, NombreSofas, ColorSofas, NumSofas)
             {
+            this.Codigo = Codigo;
             this.NombreSofas = NombreSofas;
             this.ColorSofas = ColorSofas;
             this.NumSofas = NumSofas;
+            this.CodigoP = CodigoPais;
         }
 
         public void VendenSofas(int vendido)

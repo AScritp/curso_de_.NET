@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.InteropServices;
 using Intro_C__backend.Models;
 
 namespace Intro_C__backend{
@@ -9,30 +10,19 @@ namespace Intro_C__backend{
 
         static void Main(string[] args)
         {
-        
+            // Iniciar la aplicación y mostrar los sofas de la base de datos
+            SofasDB sofasDB = new SofasDB();
+            // Obtener los sofas con el código "00002"
+            var sofas = sofasDB.Get("00002");
 
-            //--Manera 1 de añandir un elemento a una lista
-            List<Sofases> sofas = new List<Sofases>(){new Sofases ("01","España", 47000000, "001", "Max Comfort", "Blanco", 10)};
+            Console.WriteLine("Esta va por ti Profesor Juan Ramon Alemany\n");
 
-            //--Manera 2 de añadir un elemento a una lista
-            sofas.Add(new Sofases("02","Portugal", 30000000, "003", "Luxury", "White", 5));
-
-
-            //--Manera 3 de añadir un elemento a una lista
-            Sofases happy_days = new("04","Reino Unida", 100000000, "005", "Happy Days", "Rojo", 5);
-            sofas.Add(happy_days);
-
-            foreach (var sofa in sofas)
+            // Mostrar los sofas obtenidos
+            foreach (var item in sofas)
             {
-                Console.WriteLine($"CodigoDelPais: {sofa.CodigoPais}, Nombre de País: {sofa.Nombre}, Numero de habitantes: {sofa.NumHabitantes}, Lista de sofas:\n" +
-                    $"CodigoID: {sofa.FK_Sofas}\n Nombre del Sofa: {sofa.NombreSofas}\n Color: {sofa.ColorSofas}\n Unidades disp: {sofa.NumSofas}\n");
-
-
-                sofa.VendenSofas(2);
+                Console.WriteLine($"{item.Codigo}, {item.NombreSofas}, {item.ColorSofas}, {item.CodigoP},{item.Nombre},{item.NumHabitantes}");
             }
 
-
-            //--Del tipo cola.
         }
     }
 
