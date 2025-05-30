@@ -16,7 +16,7 @@ namespace Intro_C__backend.Models
         
 
 
-        public Paises( string Codigo,string Nombre, int NumHabitantes, string NombreSofas, string ColorSofas, int Numsofas) 
+        public Paises( string Codigo,string Nombre, int NumHabitantes) 
         { 
             this.Codigo = Codigo;
             this.Nombre = Nombre;
