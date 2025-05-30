@@ -15,48 +15,37 @@ namespace Intro_C__backend{
 
         static async Task Main(string[] args)
         {
-            //Variable con la URL de mi API
-            string url = "http://localhost:3000/api/disenadores/";
-            //Creo Objeto a partir de la clase HttpClient
-            var client = new HttpClient();  
-            //Metodo constructor de objeto disenador de la Clase Disenadores
-            Disenadores disenador = new Disenadores
+            //"Generic"
+
+            Disenadores disenador = new Disenadores() 
             {
-                Name = "Sergi",
-                Lastname = "Romero",
-                Description = "Profesor",
-                Picture = "https://example.com/picture.jpg"
+                Name= "Alex",
+                Lastname="Cascales",
+                Description="Programador FRONTEND",
+                Picture="Foto de perfil"
             };
 
-            string textjson = JsonSerializer.Serialize<Disenadores>(disenador);
+            
 
-            //Creo un nuevo objeto que tomara los datos serializados de disenador, luego codificamos el text en UTF-8 y por ultimo le integramos una propieda que tienen los JSON
-            // Esto sirve para Insertar(POST) datos nuevos o cambiarlos (PUT)
-            HttpContent content = new StringContent(textjson, System.Text.Encoding.UTF8, "application/json");
+            Services.SendResquest<Disenadores> service = new Services.SendResquest<Disenadores>();
+            var answer =  await service.Send(disenador);
 
-            //==== Las distitas consulta HTTP (Delete, Put(UPDATE), POST(CREATE))=====
-            var HttpResponse = await client.DeleteAsync("http://localhost:3000/api/disenadores/68389738b11487c6f8f7baf0");
-            //var HttpResponse = await client.PutAsync("http://localhost:3000/api/disenadores/68389738b11487c6f8f7baf0", content);
-            //var HttpResponse = await client.PostAsync(url, content);
-            //==== Las distitas consulta HTTP (Delete, Put(UPDATE), POST(CREATE))=====
 
-            //Condicional que si recibe un OK por parte del servidor entonces hace lo siguiente
-            if (HttpResponse.IsSuccessStatusCode)
-            {
-                //variable que usa el GET del HTTP
-                var HttpGet = await client.GetAsync(url);
+            //Ahora literalmente podemos crear cualquier objeto y cuyo constructor tenga cualquier propieddad.
 
-                //variable que toma el contenido de la variable "HttpGet" para luego leerlo
-                var read = await HttpGet.Content.ReadAsStringAsync();
-                //Deserializamos, hay que tener en cuenta que el JSON es una lista de objetos, por ende usamos el List y le ponemos la clase Disenadores para que las propiedades correspondan
-                List<Disenadores> desjsonList = JsonSerializer.Deserialize<List<Disenadores>>(read);
+            /*
+            var sofas = new Sofases() { Codigo = "0001", Nombre = "ssdfasdf" };
+            Services.SendResquest<Sofases> service = new Services.SendResquest<Sofases>();
+            var answer = await service.Send(sofas);
+            */
+            /*
+                Ya que las fuciones solo esperan 1 o 2 parametros y ya luego se encargar de procesarlos.
+                No obstante la API no aceptara ninguno registro que no tenga sus campos,
+                Por ende tenemos que obligar clase SendResquest a que solo deje parsar a aquellos objetos que 
+                cumplan con la interfaz indicada para poder usar sus funciones.
+            */
 
-                //Bucle que imprime una seria de varoles por cada linea que recorra del contenido
-                foreach (var item in desjsonList)
-                {
-                    Console.WriteLine($"ID:{item.Id} Name: {item.Name}, LastName: {item.Lastname}, Descripción: {item.Description}, Picture: {item.Picture} ");
-                }
-            }
+
         }
     }
 }   

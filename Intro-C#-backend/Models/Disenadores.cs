@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Intro_C__backend.Models
 {
-    public class Disenadores
+    public class Disenadores : ISendRequest
     {
-        [JsonPropertyName("_id")] //<--Esto permite "Traducir" la propiedades del JSON  y del objeto para evitar conflicto
+        [JsonPropertyName("id")] //<--Esto permite "Traducir" la propiedades del JSON  y del objeto para evitar conflicto
         public string Id { get; set; }
 
         [JsonPropertyName("name")]
