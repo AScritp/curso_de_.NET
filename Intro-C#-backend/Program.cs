@@ -17,28 +17,26 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace Intro_C__backend{
     class Program
     {
-        //Action
+        //PREDICADO, sentencia que regresa TRUE o FALSE
         static async Task Main(string[] args)
         {
-            //Delegados,Func y Actions
-            Action<string, string> mostrar =shownum;//<-- Action es casi lo mismo que Function, solo que este solo recibe y no retorna
-            HacerAlgo(mostrar);
+            var list = new List<int>() {0,17,24,33,74,55,76,73,86,98 };//<--Para este ejemplo creo una lista de numeros, para luego ver cuales son divisibles entre 2
+            var predicate = new Predicate<int>(N => N % 2 == 0); //<-- Creo el Predicate y con una función anonima le establesco las condiciones para que haga TRUE o FALSE
+            Predicate<int> NegativePredicate = x => !predicate(x);//<-- Tambien podemos crear PredicateNegativos de esta manera, por si no me interesa los divisibles entre 2
+                                                                  //y provechando el predicate de arriba
+            var diviver1=list.FindAll(predicate);//Uso una función de List<> llamada FindAll y pongo mi objeto predicate como la condición para hacer match
+            var diviver2=list.FindAll(NegativePredicate);
 
-            //TIP
-            //En vez de gastar lineas de cogido para para hacer funciones que solo se usen solo una vez como shownum
-            //Podemos hacer una función anonima con expresión lambda
-            //p.e: Action<string, string> mostrar = (a,b)=> Console.WriteLine(a+b);
+
+            Console.WriteLine($"Divisibles entre 2:\n");
+            diviver1.ForEach(p => { Console.WriteLine(p); });//Uso expresión Lambda para imprimir un foreach
+
+            Console.WriteLine($"\nNo divisibles entre 2:\n");
+            diviver2.ForEach(p => { Console.WriteLine(p); });
+
+
         }
-        public static void HacerAlgo(Action<string,string>funcion_final) // <--Primero arranca "HacerAlgo" con los parametros que seran delegados a otro.
-        {
-            Console.WriteLine("Ejemplo 1: \n");
-            Console.WriteLine("¿Cuantos caracteres tiene:\n \"hola vengo de otra función\"?\n");// <--Hace su función
-            funcion_final("hola ","vengo de otra función");//<--Aqui quitamos el Console.WriteLine porque no va a recibir ningun valor que imprimi, solo se envia.
-        }
-        public static void shownum(string cadena, string cadena2) //<-- cambiamos a void y hacemos la parte de contar e imprimir aqui mismo
-        {
-            var num= cadena+cadena2;
-            Console.WriteLine($"\nTiene: {num.Count()}");
-        }
+
+        static bool IsDivider(int N) => N % 2 == 0;
     }
 }   
