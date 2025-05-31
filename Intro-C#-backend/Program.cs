@@ -15,28 +15,34 @@ using static System.Net.WebRequestMethods;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Intro_C__backend{
-    class Program
+    static class Program
     {
         //PREDICADO, sentencia que regresa TRUE o FALSE
+
+        public class Beer { 
+            public string Name { get; set; }
+            public int Alcohol { get; set; }
+        }
         static async Task Main(string[] args)
         {
-            var list = new List<int>() {0,17,24,33,74,55,76,73,86,98 };//<--Para este ejemplo creo una lista de numeros, para luego ver cuales son divisibles entre 2
-            var predicate = new Predicate<int>(N => N % 2 == 0); //<-- Creo el Predicate y con una función anonima le establesco las condiciones para que haga TRUE o FALSE
-            Predicate<int> NegativePredicate = x => !predicate(x);//<-- Tambien podemos crear PredicateNegativos de esta manera, por si no me interesa los divisibles entre 2
-                                                                  //y provechando el predicate de arriba
-            var diviver1=list.FindAll(predicate);//Uso una función de List<> llamada FindAll y pongo mi objeto predicate como la condición para hacer match
-            var diviver2=list.FindAll(NegativePredicate);
 
+            List<Beer> beers = new List<Beer>() {
+                new Beer{Name="Shandy", Alcohol=1},
+                new Beer{Name="Ipa", Alcohol=8},
+                new Beer{Name="Tripel", Alcohol=15},
+                new Beer{Name="Stout", Alcohol=9},
+            };
 
-            Console.WriteLine($"Divisibles entre 2:\n");
-            diviver1.ForEach(p => { Console.WriteLine(p); });//Uso expresión Lambda para imprimir un foreach
-
-            Console.WriteLine($"\nNo divisibles entre 2:\n");
-            diviver2.ForEach(p => { Console.WriteLine(p); });
-
+            beers.ShowMeThatBeersThatIGetDrunk( x => (x.Alcohol >= 8 && x.Alcohol<15));
 
         }
 
-        static bool IsDivider(int N) => N % 2 == 0;
+        static void ShowMeThatBeersThatIGetDrunk(this List<Beer> beers , Predicate<Beer> condition) 
+        {
+            var get_me_drunk = beers.FindAll(condition);
+            
+            get_me_drunk.ForEach(g => Console.WriteLine(g.Name));
+        }
+        
     }
 }   
