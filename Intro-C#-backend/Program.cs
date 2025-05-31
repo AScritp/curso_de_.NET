@@ -5,6 +5,7 @@ using Microsoft.VisualBasic;
 using System;
 using System.ComponentModel;
 using System.Linq; //--Extensión de SQL
+using System.Net.Http.Headers;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text.Json; //--imports para la des/serialización JSON
@@ -16,47 +17,33 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace Intro_C__backend{
     class Program
     {
-        //Los delagos permiten que las funciones puedan otras funciones internas
-        public delegate void Mostrar(string cadena); //<--Creamoos una "firmar" que permite delegar una función
-        public delegate string Mostrar2(string cadena2); //<--Esto es para dar un ejemplo de un metodo "VOID" de los otros
+        //Function, el problema de "delegate" que es que si queremos trabajar con distintos elemetos no se puede, ademas no poder usar mas de uno por metodo
+        //Aquí entra Func, que puede soportar hasta 16 parametros, de los cuales el ultimo a la derecha está reservado para envia
+        //los otros reciben
         static async Task Main(string[] args)
         {
             //Delegados,Func y Actions
-            Mostrar mostrar = show; //<-- Aqui que le decimos a el metodo "show" que trabajara con los resultado delegados de otro
-            HacerAlgo(mostrar,"hola");//<-- Aqui le asignamos al metodo "HacerAlgo" la firma de delegación que creamos,
-                                      //para que puedea ceder sus procesos a otro metodo
+            Func<string, string,int> mostrar =shownum;//<-- Volvemos a delegar, pero con la direncia que rebira 2 parametros sting, y su return será int
+            HacerAlgo(mostrar);
 
-            
-            Mostrar2 mostrar2 = show2;
-            HacerAlgo2(mostrar2,"hola2");
         }
 
-        public static void HacerAlgo(Mostrar funcion_final,string hola) // <--Primero arranca "HacerAlgo" con un parametro que sera el
-                                                            // delegado a otro.
+        public static void HacerAlgo(Func<string,string, int>funcion_final) // <--Primero arranca "HacerAlgo" con los parametros que seran delegados a otro.
         {
             Console.WriteLine("Ejemplo 1: \n");
-            Console.WriteLine("1.Hago mis procesos");// <--Hace su función
-            funcion_final($"{hola} vengo de otra función");//<--Luego el resultado lo manda al parametro
+            Console.WriteLine("¿Cuantos caracteres tiene:\n \"hola vengo de otra función\"?\n");// <--Hace su función
+            Console.WriteLine($"Tiene: {funcion_final("hola ","vengo de otra función")}.");//<--aqui el parametro recibe los 2 string y los manda a la función 
+            
         }
-        
-        public static void show(string cadena)//<--Le llega acá el parametro delegado
+
+       
+        public static int shownum(string cadena, string cadena2)//<--Le llega acá los 2 parametro delegados
         {
-            Console.WriteLine("Parametros delegado: " + cadena);//<-- Aqui contatenamos el resultado de "show" 
-                                                                 //con el parametro delegado
+            var upper = cadena + cadena2;//<-- hace su función
+            return upper.Count();//<-- retorna un int 
+            
         }
-
-        public static void HacerAlgo2(Mostrar2 funcion_final2, string hola2)
-        {
-            Console.WriteLine("\nEjemplo 2:\n");
-            Console.WriteLine("2.Hago mis procesos");
-            Console.WriteLine(funcion_final2($"{hola2} vengo de otra función"));
-        }
-
-
-        public static string show2(string cadena2)
-        {   var result = $"{cadena2}";
-            Console.WriteLine($"Hago cosa x: {result}");
-            return result.ToUpper();
-        }
+        //Con esto se demuestra que cuando vamos a hacer muchas delegaciones FUNC es la con mejor escalabilidad.
+ 
     }
 }   
