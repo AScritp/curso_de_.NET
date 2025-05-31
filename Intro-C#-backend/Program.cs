@@ -17,33 +17,28 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace Intro_C__backend{
     class Program
     {
-        //Function, el problema de "delegate" que es que si queremos trabajar con distintos elemetos no se puede, ademas no poder usar mas de uno por metodo
-        //Aquí entra Func, que puede soportar hasta 16 parametros, de los cuales el ultimo a la derecha está reservado para envia
-        //los otros reciben
+        //Action
         static async Task Main(string[] args)
         {
             //Delegados,Func y Actions
-            Func<string, string,int> mostrar =shownum;//<-- Volvemos a delegar, pero con la direncia que rebira 2 parametros sting, y su return será int
+            Action<string, string> mostrar =shownum;//<-- Action es casi lo mismo que Function, solo que este solo recibe y no retorna
             HacerAlgo(mostrar);
 
+            //TIP
+            //En vez de gastar lineas de cogido para para hacer funciones que solo se usen solo una vez como shownum
+            //Podemos hacer una función anonima con expresión lambda
+            //p.e: Action<string, string> mostrar = (a,b)=> Console.WriteLine(a+b);
         }
-
-        public static void HacerAlgo(Func<string,string, int>funcion_final) // <--Primero arranca "HacerAlgo" con los parametros que seran delegados a otro.
+        public static void HacerAlgo(Action<string,string>funcion_final) // <--Primero arranca "HacerAlgo" con los parametros que seran delegados a otro.
         {
             Console.WriteLine("Ejemplo 1: \n");
             Console.WriteLine("¿Cuantos caracteres tiene:\n \"hola vengo de otra función\"?\n");// <--Hace su función
-            Console.WriteLine($"Tiene: {funcion_final("hola ","vengo de otra función")}.");//<--aqui el parametro recibe los 2 string y los manda a la función 
-            
+            funcion_final("hola ","vengo de otra función");//<--Aqui quitamos el Console.WriteLine porque no va a recibir ningun valor que imprimi, solo se envia.
         }
-
-       
-        public static int shownum(string cadena, string cadena2)//<--Le llega acá los 2 parametro delegados
+        public static void shownum(string cadena, string cadena2) //<-- cambiamos a void y hacemos la parte de contar e imprimir aqui mismo
         {
-            var upper = cadena + cadena2;//<-- hace su función
-            return upper.Count();//<-- retorna un int 
-            
+            var num= cadena+cadena2;
+            Console.WriteLine($"\nTiene: {num.Count()}");
         }
-        //Con esto se demuestra que cuando vamos a hacer muchas delegaciones FUNC es la con mejor escalabilidad.
- 
     }
 }   
