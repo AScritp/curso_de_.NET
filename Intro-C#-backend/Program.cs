@@ -16,68 +16,47 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace Intro_C__backend{
     class Program
     {
-
+        //Los delagos permiten que las funciones puedan otras funciones internas
+        public delegate void Mostrar(string cadena); //<--Creamoos una "firmar" que permite delegar una función
+        public delegate string Mostrar2(string cadena2); //<--Esto es para dar un ejemplo de un metodo "VOID" de los otros
         static async Task Main(string[] args)
         {
-            //-Control de situaciones inesperadas con EXCEPCIONES
+            //Delegados,Func y Actions
+            Mostrar mostrar = show; //<-- Aqui que le decimos a el metodo "show" que trabajara con los resultado delegados de otro
+            HacerAlgo(mostrar,"hola");//<-- Aqui le asignamos al metodo "HacerAlgo" la firma de delegación que creamos,
+                                      //para que puedea ceder sus procesos a otro metodo
 
-            //Un catch general
-            /*
-            try//<--Obligatorio, para arrancar en un espacio de control de excepciones
-            {
-                string name = "Miguel";
-                var getdisenador = new SearcherDisenadores();
-                var description = getdisenador.GetDescriptionByName(name);
-                Console.WriteLine($"{name} es {description}");
-
-            }
-            catch (Exception ex) //<--Opcional, el catch sirve para atrapar los errores, sirve para ayudar a orientarnos para saber en que fallo
-            {                    // pero no es vital para la ejecución del proceso
-                Console.WriteLine($"{ex.Message}");
-            }
-            finally <--Practicamnte obligatorio para que cierre el proceso, sino seguira en ejecución y no estará disponible para su uso
-            {
-                Console.WriteLine("Tarea terminada");
-            }
-            */
-            //Un catch personalizados, el Visual Studio 2022 nos puede idicar que tipo de fallos ocurren en la ejecución del codigo
-            //el orden de ejecución de los catch es el linea, iremos linea por linea viendo los catches que hayan agarrado un error o excepción
-            try
-            {
-                string name = "a";
-                var getdisenador = new SearcherDisenadores();
-                var description = getdisenador.GetDescriptionByName(name);
-                Console.WriteLine($"{name} es {description}");
-
-
-            }
-            catch (InvalidOperationException ex)
-            {// <-- Excepción para cuando pongamos en "name" un valor string que no este registrado en los datos que consulta
-             //p.e. "A" no existe en la coleción de datos en la por ende da error, pero "Miguel " si existe
-                Console.WriteLine("La operación no es valida");
-            }
-            catch (FieldAccessException ex)
-            {
-                Console.WriteLine("Cath para el 'FieldAccessException'puesto por el desarrollador ");
-            }
-            catch (NotFoundException ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            catch (Exception ex)
-            { //En caso de haber una expeción inesperada que no caiga en las anteriores que son especificasm,
-              // entoces caera en esta que es caracter general
-
-                Console.WriteLine($"Excepción inesperada, mensage: {ex.Message}");
-            }
-            finally
-            {
-                Console.WriteLine("Tarea terminada");
-            }
             
-         }
+            Mostrar2 mostrar2 = show2;
+            HacerAlgo2(mostrar2,"hola2");
+        }
+
+        public static void HacerAlgo(Mostrar funcion_final,string hola) // <--Primero arranca "HacerAlgo" con un parametro que sera el
+                                                            // delegado a otro.
+        {
+            Console.WriteLine("Ejemplo 1: \n");
+            Console.WriteLine("1.Hago mis procesos");// <--Hace su función
+            funcion_final($"{hola} vengo de otra función");//<--Luego el resultado lo manda al parametro
+        }
+        
+        public static void show(string cadena)//<--Le llega acá el parametro delegado
+        {
+            Console.WriteLine("Parametros delegado: " + cadena);//<-- Aqui contatenamos el resultado de "show" 
+                                                                 //con el parametro delegado
+        }
+
+        public static void HacerAlgo2(Mostrar2 funcion_final2, string hola2)
+        {
+            Console.WriteLine("\nEjemplo 2:\n");
+            Console.WriteLine("2.Hago mis procesos");
+            Console.WriteLine(funcion_final2($"{hola2} vengo de otra función"));
+        }
 
 
-
+        public static string show2(string cadena2)
+        {   var result = $"{cadena2}";
+            Console.WriteLine($"Hago cosa x: {result}");
+            return result.ToUpper();
+        }
     }
 }   
